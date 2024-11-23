@@ -22,6 +22,7 @@ import androidx.compose.material.icons.twotone.Snooze
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,8 +30,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
@@ -136,6 +140,22 @@ class SwipeableActionsBoxTest {
           backgroundUntilSwipeThreshold = Color.GraySuit,
           content = { BatmanIpsumItem() }
         )
+      }
+    }
+  }
+
+  @Test
+  fun `rtl alignment test`() {
+    paparazzi.snapshot {
+      CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+        Scaffold {
+          SwipeableActionsBox(
+            state = rememberSwipeActionsState(initialOffset = 80.dp),
+            startActions = listOf(replyAll),
+            endActions = listOf(snooze),
+            content = { BatmanIpsumItem() },
+          )
+        }
       }
     }
   }
